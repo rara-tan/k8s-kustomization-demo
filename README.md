@@ -75,7 +75,7 @@ test-app        1/1     1            1           9m38s
 # patch other parametes
 To change other parameters, Kustomize supports `patch` to modify Kubernetes reosources.
 
-For example, you can change the namespace of deployment by following codes.
+For example, you can change a namespace and add a label by following codes.
 
 `patch-other-params/kustomization.yaml`
 ```yaml
@@ -94,6 +94,9 @@ patches:
       - op: replace
         path: /metadata/namespace
         value: patch-other-parameters
+      - op: add
+        path: "/metadata/labels/patch"
+        value: patched-value
 ```
 
 ```bash

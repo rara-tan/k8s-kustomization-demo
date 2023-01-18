@@ -13,4 +13,7 @@ patches:
       - op: replace
         path: /metadata/namespace
         value: patch-other-parameters
+      - op: add
+        path: "/metadata/labels/patch"
+        value: patched-value
 
