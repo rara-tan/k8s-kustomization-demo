@@ -110,6 +110,7 @@ patch-other   1/1     1            1           23s
 # patch by files
 Instead of embedding a json patch expression, you can use a yaml file using the path field.
 
+`patch-by-files/kustomization.yaml`
 ```yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
