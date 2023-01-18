@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: patch-other
+  name: patch-other
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patch-other
+  template:
+    metadata:
+      labels:
+        app: patch-other
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        env:   
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              name: test-cm
+              key: env

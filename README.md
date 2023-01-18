@@ -200,3 +200,103 @@ spec:
             memory: 512Mi
 ...
 ```
+
+# Config Map Generator
+By using configMapGenerator, you can manage several configmap values by kustomization files.
+
+The follwing example is showing that `test-cm` ConfigMap is created by kustomization.
+
+`configmap-generator/kustomization.yaml`
+```yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ./deployment.yaml
+configMapGenerator:
+- name: test-cm
+  literals:
+  - env=prod
+```
+
+`configmap-generator/deployment.yaml`
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: patch-other
+  name: patch-other
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patch-other
+  template:
+    metadata:
+      labels:
+        app: patch-other
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        env:   
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              name: test-cm
+              key: env
+```
+
+Let's check the build result.
+
+```bash
+$ kustomize build ./configmap-generator
+apiVersion: v1
+data:
+  env: prod
+kind: ConfigMap
+metadata:
+  name: test-cm-b7k5b48kg7
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: patch-other
+  name: patch-other
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patch-other
+  template:
+    metadata:
+      labels:
+        app: patch-other
+    spec:
+      containers:
+      - env:
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              key: env
+              name: test-cm-b7k5b48kg7
+        image: nginx
+        name: nginx
+```
+
+Kustomization hashes configmap name. So after editing any config map values, the configmap name will change. It leads to trigger rolling update.  
+
+Of course you can use separate files to create configmaps as below.
+
+```bash
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ./deployment.yaml
+configMapGenerator:
+- name: test-cm
+  files:
+  - ./cm1.yaml
+  - ./cm2.yaml
+```
