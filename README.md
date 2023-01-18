@@ -285,7 +285,7 @@ spec:
         name: nginx
 ```
 
-Kustomization hashes configmap name. So after editing any config map values, the configmap name will change. It leads to trigger rolling update.  
+Kustomization hashes configmap name. So after editing any config map values, the configmap name will change. It leads to trigger rolling update when this kustomization manifests are applied.  
 
 Of course you can use separate files to create configmaps as below.
 
