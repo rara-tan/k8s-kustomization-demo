@@ -1,0 +1,8 @@
+.DS_Store
+.envrc
+.env
+tmp
+node_modules
+
+secret.yaml
+cert.pem
