@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: strategic-merge-patch
+spec:
+  template:
+    spec:
+      containers:
+      - name: nginx
+        resources:
+          limits:
+            cpu: "300m"
+            memory: "512Mi"
+          requests:
+            cpu: "300m"
+            memory: "512Mi"

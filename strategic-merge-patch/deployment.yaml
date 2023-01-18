@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: strategic-merge-patch
+  name: strategic-merge-patch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: strategic-merge-patch
+  template:
+    metadata:
+      labels:
+        app: strategic-merge-patch
+    spec:
+      containers:
+      - image: nginx
+        name: nginx

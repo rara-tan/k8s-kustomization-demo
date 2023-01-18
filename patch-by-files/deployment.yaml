@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: patch-by-file
+  name: patch-by-file
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patch-by-file
+  template:
+    metadata:
+      labels:
+        app: patch-by-file
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
